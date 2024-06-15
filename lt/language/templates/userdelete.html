@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+	<script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+	<title>delete user</title>
+</head>
+<body>
+	<div class="container mt-4">
+		<div class="card col-md-5 ma-auto shadow-lg">
+			<div class="card-body">
+				<h4>Are you want to delete this user?</h4>
+				<h6>user id : {{z.userid}}</h6>
+				<h6>user name  :{{z.username}}</h6>
+				<h6>email  :{{z.email}}</h6>
+				<h6>Password :{{z.password}}</h6>
+				
+				<form method="post">
+					{% csrf_token %}
+					<div class="row">
+						<div class="col">
+							<a href="javascript:history.go(-1);" class="form-control btn btn-outline-info">No</a>
+						</div>
+						<div class="col">
+							<input type="submit" valu="Yes" class="btn btn-outline-danger form-control">
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

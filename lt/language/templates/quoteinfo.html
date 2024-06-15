@@ -1,0 +1,189 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Cards with Copy Functionality</title>
+  <!-- Add Font Awesome CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+  <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+  <style>
+    /* Basic styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      min-height: 100vh;
+    }
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      text-align: center; 
+      margin: 10px;
+      padding: 15px;
+      border-radius: 5px;
+      background-size: cover; /* Ensure background image covers the entire card */
+      background-repeat: no-repeat; /* Prevent background image from repeating */
+      background-position: center; /* Center the background image */
+      width: 300px; 
+    }
+
+    .card:nth-child(1) {
+      background-image: url('https://source.unsplash.com/random/800x600/?nature'); /* Replace with your image URL */
+    }
+
+    .card:nth-child(2) {
+      background-image: url('https://source.unsplash.com/random/800x600/?language'); /* Replace with your image URL */
+    }
+
+    .card img {
+      width: 150px;  
+      height: auto;  
+      border-radius: 50%;  
+      margin-bottom: 10px;
+      border: 3px solid #ffa500; 
+    }
+
+    .card-text {
+      font-size: 20px; /* Increased font size for the quotes and inside text */
+      line-height: 1.5;
+      margin-bottom: 10px;
+      color: #fff; /* Change text color to white for better visibility */
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add text shadow for better readability */
+    }
+
+    .icon-container {
+      display: flex;
+      justify-content: center;
+    }
+
+    .copy-icon,
+    .download-icon,
+    .speaker-icon {
+      width: 40px; /* Set the width of all icons */
+      height: 40px; /* Set the height of all icons */
+      margin-right: 10px; /* Add margin between icons */
+      cursor: pointer; 
+    }
+
+    .speaker-icon {
+      color: blue; /* Change color as needed */
+      font-size: 30px; /* Increase icon size */
+    }
+
+    .copy-icon:hover,
+    .download-icon:hover,
+    .speaker-icon:hover {
+      color: red; /* Change color on hover as needed */
+    }
+
+    .card:nth-child(2):hover .copy-icon::after {
+      content: 'Copied!';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #333;
+      color: #fff;
+      padding: 5px;
+      font-size: 12px;
+      border-radius: 5px;
+      opacity: 0;
+      transition: opacity 0.2s ease-in-out;
+    }
+
+    .card:nth-child(2):hover .copy-icon::after {
+      opacity: 1;
+    }
+
+    
+    @media (max-width: 768px) {
+      .card {
+        width: 100%; /* Adjust card width for smaller screens */
+      }
+    }
+  </style>
+</head>
+<body>
+  <form method="post" id="quoteForm">
+    {% csrf_token %}
+    <div class="card">
+      <center><img src="/media/{{a.image}}" alt="Card Image"></center>
+      <p class="card-text">{{a.name}}</p>
+    </div>
+
+    <div style="background-image: url('https://source.unsplash.com/random/800x600/?language');"class="card">
+      <blockquote class="card-text">
+        <p style="align-items: left;font-size:24px;color:red;">"</p><div class="text1" id="text1">{{a.text}}</div><p style="align-items: left;font-size:24px;color:red;">"</p>
+        <p style="align-items: left;font-size:24px;color:red;"></p>{{b}}<p style="align-items: left;font-size:24px;color:red;"></p>
+        <p style="align-items: left;font-size:24px;color:red;"></p>{{c}}<p style="align-items: left;font-size:24px;color:red;"></p>
+      </blockquote>
+      <p class="card-text">
+        <div class="icon-container">
+          <i class="fas fa-copy copy-icon"></i>
+          <i class="fas fa-volume-up speaker-icon" onclick="speakText('{{a.text}}')"></i>
+          <a href="#" onclick="a()" class="download-icon"><i class="fas fa-download"></i></a>
+        </div>
+      </p>
+      <div class="row">
+        <div class="col">
+          <a href="javascript:history.go(-1);" class="btn btn-outline-primary form-control">Back</a>
+        </div>
+        
+      </div>
+    </div>
+    <input type="hidden" id="id_text" name="text"> <!-- Hidden input field to store the quote text -->
+  </form>
+  <script>
+    function a(){
+      window.print()
+    }
+
+    function translateText() {
+      var text = document.getElementById('text1').innerText; // Get the quote text
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "https://translation.googleapis.com/language/translate/v2?key=YOUR_API_KEY", true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          var response = JSON.parse(xhr.responseText);
+          if (response.data && response.data.translations) {
+            var translations = response.data.translations;
+            translations.forEach(function (translation) {
+              if (translation.detectedSourceLanguage === 'en') {
+                document.getElementById('text1').innerText = translation.translatedText;
+              }
+            });
+          }
+        }
+      };
+      var data = JSON.stringify({ q: text, target: ['hi', 'te'] });
+      xhr.send(data);
+    }
+
+    function speakText(text) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      window.speechSynthesis.speak(utterance);
+    }
+
+    const copyIcons = document.querySelectorAll('.copy-icon');
+    const cardTexts = document.querySelectorAll('.card .card-text');
+
+    copyIcons.forEach((copyIcon, index) => {
+      copyIcon.addEventListener('click', () => {
+        navigator.clipboard.writeText(cardTexts[index].textContent).then(() => {
+
+        }, () => {
+          alert('Failed to copy text!');
+        });
+      });
+    });
+  </script>
+</body>
+</html>

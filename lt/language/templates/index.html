@@ -1,0 +1,234 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+            background: linear-gradient(to right, #8e44ad, #3498db);
+        }
+
+        .header-card {
+            background-color: #ffffff; /* Background color */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
+            padding: 20px; /* Padding inside the card */
+            margin-bottom: 20px; /* Add some space below the card */
+            display: flex; /* Use flexbox for alignment */
+            align-items: center; /* Center align items vertically */
+            justify-content: center; /* Center align items horizontally */
+            flex-direction: column; /* Stack items vertically */
+            text-align: center; /* Center align text */
+        }
+
+        .heading {
+            margin: 0; /* Remove default margin */
+            font-size: 24px; /* Adjust font size */
+            font-weight: bold; /* Bold text */
+            color: #333333; /* Text color */
+            display: flex; /* Use flexbox for alignment */
+            align-items: center; /* Center align items vertically */
+            justify-content: center; /* Center align items horizontally */
+        }
+
+        .image {
+            width: 40px; /* Adjust the size of the icon */
+            margin-right: 10px; /* Add some space between the icon and text */
+        }
+
+        nav {
+            background-color: #333333;
+            color: #ffffff;
+            padding: 10px 20px;
+            text-align: right; /* Align navigation items to the right */
+            margin-top: 2px; /* Adjust top margin */
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: inline; /* Display navigation items inline */
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        .parentContainer {
+            display: flex;
+            flex-direction: row; /* Align child containers horizontally */
+            justify-content: space-between; /* Distribute space between child containers */
+            padding: 20px;
+        }
+
+        .childContainer {
+            max-width: 15%px; /* Set the maximum width of the card container */
+            width: 100%; /* Set child container width to 100% */
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px; /* Add space between child containers */
+            display: flex; /* Use flexbox for alignment */
+            align-items: center; /* Center align items vertically */
+            justify-content: center; /* Center align items horizontally */
+            flex-direction: column; /* Stack items vertically */
+        }
+
+        .design h1 {
+            margin-top: 0;
+            text-align: center; /* Center align the text */
+        }
+
+        .card {
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 250px; /* Adjusted width for the content card */
+        }
+
+        .imageContainer img {
+            max-width: 300%; /* Set the maximum width of the image */
+            height: 100%; /* Maintain aspect ratio */
+            width: 30%; /* Adjusted width for the image */
+        }
+
+        .support {
+            flex-basis: 70%;
+        }
+
+        .logoContainer {
+            flex-basis: 30%;
+            text-align: right;
+        }
+
+        .bottom-bar {
+            background-color: #333333;
+            color: #ffffff;
+            padding: 10px 20px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+        }
+
+        .bottom-bar p, .bottom-bar a {
+            margin: 0;
+            color: #ffffff;
+        }
+
+        .bottom-bar img {
+            width: 20px;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+          .heading {
+            background-image: url('https://source.unsplash.com/random/800x600/?language');
+        }
+         #tnr {
+            background-image: url('https://source.unsplash.com/random/800x600/?technology');
+        }
+    </style>
+    <title>Real Time Language Translator</title>
+</head>
+<body>
+    <div class="header-card">
+        <div class="row">
+            <div class="col-3">
+                <img src="/media/images/logo.jpg" class="image" alt="icon">
+            </div>
+            <div class="col">
+                <h1 class="heading">Real Time Language Translator</h1>
+            </div>
+        </div>
+    </div>
+
+    <nav>
+        <ul>
+            <li><a href="{% url 'superlogin' %}">SuperUser Login</a></li>
+            <li class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Contact Us
+                </button>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="sortDropdown">
+                    <a class="dropdown-item">+91 7093896106</a>
+                    <a class="dropdown-item">+91 8897065734</a>
+                    <a class="dropdown-item">+91 7793900788</a>
+                    <a class="dropdown-item">+91 7893259464</a>
+                </div>
+            </li>
+            <li><a href="#aboutUs">About Us</a></li>
+            <li><a href="#help">Help</a></li>
+        </ul>
+    </nav>
+
+    <div class="parentContainer">
+        <div class="childContainer design  border border-success">
+            <h1>Real Time Language Translator</h1>
+            <div class="card" id="tnr">
+                <p>Here you go, the real-time language translator which can work offline too!</p>
+                <div class="col">
+                    <a href="{% url 'signup' %}" class="btn btn-success">GET STARTED</a>
+                </div><!-- Adjusted width for the button -->
+            </div>
+        </div>
+
+        <div class="childContainer imageContainer border border-info">
+            <img  src="/media/images/ancient.jpg" alt="">
+        </div>
+    </div>
+
+    <section id="aboutUs">
+        <div class="parentContainer">
+            <div class="childContainer support">
+                <h2 id="tnr">About Us</h2>
+                <div class="person col-md-12">
+                    <p>T.Nageswara Rao</p>
+                    <a href="tel:+917093896106">+91 7093896106</a><br>
+                    <a href="mailto:nageswararao_t@srmap.edu.in">nageswararao_t@srmap.edu.in</a>
+                    <p>G. Naga Venkatesh</p>
+                    <a href="tel:+918897065734">+91 9987065734</a><br>
+                    <a href="mailto:nagavenkateshgattu@gmail.com">nagavenkateshgattu@gmail.com</a>
+                    <p>Ch.Ramoji</p>
+                    <p href="tel:+91 7793900788">+91 7793900788</p>
+                    <a href="mailto:ramojichintada@srmap.edu.in">ramojichintada@srmap.edu.in</a>
+                    <p>V.Naveen Kumar Reddy</p>
+                    <p href="tel:+91 7893259464">+91 7893259464</p>
+                    <a href="mailto:naveen_v@srmap.edu.in">naveen_v@srmap.edu.in</a>
+
+                </div>
+                
+            </div>
+            <div class="childContainer logoContainer"><img src="/media/images/srmlogo.jpg" alt=""></div>
+        </div>
+    </section>
+
+    <div class="bottom-bar">
+        <p>&copy; 2023 Real Time Language Translator. All rights reserved.</p>
+        <img src="/media/images/srmlogo.jpg" alt="icon">
+        <a href="mailto:languageTranslateSupport@gmail.com">Email Us: languageTranslateSupport@gmail.com</a>
+    </div>
+
+    <script>
+        // Ensure Bootstrap dropdown works properly
+        var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'))
+        var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
+            return new bootstrap.Dropdown(dropdownToggleEl)
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+  <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+  <title>info</title>
+</head>
+<body>
+	<div class="col">
+		<div class="card shadow-lg border border-success">
+			<div class="card-body">
+				<h4>{{l}} Login info</h4>
+				<div class="center"><a href="javascript:history.go(-1);" class="btn btn-outline-info form-control">Back</a></div>
+				<table class="table">
+					<tr>
+						<th>SI.NO</th>
+						<th>Email</th>
+						<th>Logintime</th>
+						<th>aspect</th>
+					</tr>
+					{% for i in k %}
+					<tr>
+						<td>{{forloop.counter}}</td>
+						<td>{{d.email}}</td>
+						<td>{{i.time}}</td>
+						<td>{{i.aspect}}</td>
+					</tr>
+					{% endfor %}
+				</table>
+
+			</div>
+		</div>
+	</div>
+</body>
+</html>

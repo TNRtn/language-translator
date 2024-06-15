@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+	<script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+	<title>delete user</title>
+	 <style>
+    body {
+      background-color: #f0f0f0; /* Initial background color */
+    }
+
+    body.recording {
+      background-color: #ff6347; /* Recording background color */
+    }
+  </style>
+</head>
+<body>
+	<form method="post" enctype="multipart/form-data">
+		{% csrf_token %}
+		<center style="margin:20px">
+		 <button id="record-button">Start Recording</button>
+  <button id="stop-button" disabled>Stop Recording</button>
+  <button id="play-button" disabled>Play Recording</button>
+  <br>
+  <audio style="margin:20px" id="audio-element" controls></audio>
+</center>
+		<center>
+			<a id="download" name="dwn">Download</a>
+		</center>
+		<div class="container">
+			<div class="form-group">
+				<label for="ex1">Select Audio language..</label>
+				<select class="form-control" id="ex1" name="dlang">
+					<option value="hi">Hindi</option>
+					<option value="en">English</option>
+					<option value="gu">gujarathi</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="ex1">Select destination language..</label>
+				<select class="form-control" id="ex1" name="dlang">
+					<option value="hi">Hindi</option>
+					<option value="en">English</option>
+					<option value="gu">gujarathi</option>
+				</select>
+			</div>
+			<div class="custom-file">
+				<input type="file" class="custom-file-input" id="customfilelang" lang="es" name="file">
+				<label class="custom-file-label" for="customfilelang">select Audio File</label>
+			</div>
+			<input name="blobdata" id="blbdata">
+			<center style="...">
+				<button type="submit" class="btn btn-warning">Translate</button>
+			</center>
+		</div>
+	</form>
+	<script>
+const recordButton = document.getElementById('record-button');
+    const stopButton = document.getElementById('stop-button');
+    const playButton = document.getElementById('play-button');
+    const audioElement = document.getElementById('audio-element');
+
+    let recorder;
+    let audioChunks = [];
+
+    recordButton.addEventListener('click', startRecording);
+    stopButton.addEventListener('click', stopRecording);
+    playButton.addEventListener('click', playRecording);
+
+    function startRecording() {
+      navigator.mediaDevices.getUserMedia({ audio: true })
+        .then(stream => {
+          recorder = new MediaRecorder(stream);
+          recorder.ondataavailable = (e) => audioChunks.push(e.data);
+          recorder.start();
+
+          // Change background color while recording
+          document.body.classList.add('recording');
+
+          recordButton.disabled = true;
+          stopButton.disabled = false;
+        })
+        .catch(error => console.error(error));
+    }
+
+    function stopRecording() {
+      recorder.stop();
+      stopButton.disabled = true;
+
+      // Remove recording background color
+      document.body.classList.remove('recording');
+    }
+
+    function playRecording() {
+      const blob = new Blob(audioChunks, { type: 'audio/webm' });
+      const audioUrl = URL.createObjectURL(blob);
+      audioElement.src = audioUrl;
+      audioElement.play();
+      audioChunks = []; // Clear audio chunks for next recording
+    }
+</script>
+</body>
+</html>

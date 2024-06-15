@@ -1,0 +1,175 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+    <title>User Dashboard</title>
+    <style>
+         body {
+      background: linear-gradient(to right, #8e44ad, #3498db);
+      color: black;
+      font-family: 'Arial', sans-serif;
+    }
+        .avatar-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Add shadow */
+            display: flex;
+            align-items: center;
+        }
+        .avatar {
+            width: 150px; /* Increased size */
+            height: 150px; /* Increased size */
+            border-radius: 50%;
+            margin-right: 20px;
+            padding: 10px;
+        }
+        .user-info {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Add shadow */
+        }
+        .user-info h1,
+        .user-info h2,
+        .user-info h3 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        .card-btn {
+            margin: 10px;
+            color: #fff; /* Text color */
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            background-repeat: no-repeat;
+            background-size: cover;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Add shadow */
+        }
+        .card {
+            cursor: pointer;
+            height: 250px;
+            background-size: cover;
+        }
+        .card-clicked {
+            transform: scale(1.0);
+        }
+        #translate {
+            background-image: url('https://source.unsplash.com/random/800x600/?language');
+        }
+        #dictionary {
+            background-image: url('https://source.unsplash.com/random/800x600/?technology');
+        }
+        #quotes {
+            background-image: url('https://source.unsplash.com/random/800x600/?animals');
+        }
+        #feedback {
+            background-image: url('https://source.unsplash.com/random/800x600/?architecture');
+        }
+        #users {
+            background-image: url('https://source.unsplash.com/random/800x600/?travel');
+        }
+        #history {
+            background-image: url('https://source.unsplash.com/random/800x600/?music');
+        }
+        #fun {
+            background-image: url('https://source.unsplash.com/random/800x600/?art');
+        }
+        #login {
+            background-image: url('https://source.unsplash.com/random/800x600/?sports');
+        }
+        .extra-image-container {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+    .extra-image {
+    width: 50%; /* Set width to fill available space */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 10px;
+    object-fit: cover;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Add shadow */
+}
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row align-items-center avatar-container">
+            <div class="col-md-3">
+                <img src="https://source.unsplash.com/random/800x600/?nature" class="avatar" alt="Avatar">
+            </div>
+            <div class="col-md-3 user-info">
+                <h1>{{ a.username }}</h1>
+                <h2>{{ a.email }}</h2>
+                <h3>{{ a.dob }}</h3>
+            </div>
+            <div class="col-md-6 extra-image-container">
+                <img src="/media/images/Logo-2 (1).png" class="extra-image" alt="Extra Image">
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-4 mb-3">
+                <div class="card" id="translate" onclick="toggleAnimation(this)">
+                    <a href="{% url 'translate' a.username %}" class="btn btn-primary btn-block card-btn">Translate</a>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card" id="dictionary" onclick="toggleAnimation(this)">
+                    <a href="{% url 'dictionary' %}" class="btn btn-success btn-block card-btn">Dictionary</a>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card" id="quotes" onclick="toggleAnimation(this)">
+                    <a href="{% url 'list' a.username %}" class="btn btn-secondary btn-block card-btn">Quotes</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-4 mb-3">
+            <div class="card" id="feedback" onclick="toggleAnimation(this)">
+                <a href="{% url 'viewfeedback' %}" class="btn btn-danger btn-block card-btn">Feedback</a>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card" id="users" onclick="toggleAnimation(this)">
+                <a href="{% url 'userlist' %}" class="btn btn-warning card-btn">Users</a>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card" id="history" onclick="toggleAnimation(this)">
+                <a href="{% url 'history' %}" class="btn btn-info card-btn">View History</a>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-4 mb-3">
+            <div class="card" id="fun" onclick="toggleAnimation(this)">
+                <a href="{% url 'fun' %}" class="btn btn-warning card-btn">Fun</a>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card" id="users" onclick="toggleAnimation(this)">
+                <a href="{% url 'superuser' %}" class="btn btn-dark card-btn">Add Super User</a>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card" id="login" onclick="toggleAnimation(this)">
+                <a href="{% url 'superlogin' %}" class="btn btn-success card-btn">Back to Login</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleAnimation(card) {
+            card.classList.toggle('card-clicked');
+        }
+    </script>
+</body>
+</html>

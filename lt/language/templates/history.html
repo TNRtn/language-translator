@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+  <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+  <title>Author List</title>
+</head>
+<body>
+	<div class="col">
+		<div class="card shadow-lg border border-success ">
+			<div class="card-body">
+				<center>
+				<div class="row">
+					<div class="col">
+				<h4>History</h4>
+			</div>
+				<div class="col">
+				<a href="javascript:history.go(-1);" class="btn btn-info">Back</a>
+			</div>
+			</div>
+		</center>
+				<table class="table">
+					<thead class="bg-dark text-white">
+					<tr>
+					<th>SI.No</th>
+					<th>Source text</th>
+					<th>Target text</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+				{% for i in a %}
+				<tr>
+					<td>{{forloop.counter}}</td>
+					<td>{{i.fromtext}}</td>
+					<td>{{i.totext}}</td>
+					<td>
+									<div class="row">
+										<div class="col ">
+											<a href="{% url 'linfo' i.date %}" class="btn btn-outline-primary form-control">Info</a>
+										</div>
+										<div class="col">
+											<a href="{% url 'hisdel' i.date %}" class="btn btn-outline-danger mb-4 form-control">Delete</a>
+										</div>
+									</div>
+								</td>
+				</tr>
+				{% endfor %}
+				</table>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>
