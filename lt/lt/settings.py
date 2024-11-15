@@ -27,8 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = [
-    'https://online-retail-tnr2.onrender.com',  # Example domain, use your actual domain here
+    'https://language-translatortnra2.onrender.com',  # Add this line
 ]
+
 
 
 
