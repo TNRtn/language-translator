@@ -25,7 +25,9 @@ SECRET_KEY = 'tkolo)3g#o%gw7)9!0p*fs^b)e3hypnnj#gb%^3ihzldn9c32e'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGINS = ['*']
+
 
 
 # Application definition
