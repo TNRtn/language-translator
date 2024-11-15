@@ -26,7 +26,10 @@ SECRET_KEY = 'tkolo)3g#o%gw7)9!0p*fs^b)e3hypnnj#gb%^3ihzldn9c32e'
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGINS = ['*']
+CSRF_TRUSTED_ORIGINS = [
+    'https://online-retail-tnr2.onrender.com',  # Example domain, use your actual domain here
+]
+
 
 
 
@@ -118,6 +121,7 @@ USE_L10N = True
 USE_TZ = True
 MEDIA_URL='/media/'
 MEDIA_ROOT=os.path.join(BASE_DIR,'media/')
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
