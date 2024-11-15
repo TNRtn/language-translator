@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -131,6 +131,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
      os.path.join(BASE_DIR, 'static'),
 ]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 RECAPTCHA_PUBLIC_KEY = '6LdulbkpAAAAAC6bIqHFqcmKCiaHaCbwlinJjRFe'
 RECAPTCHA_PRIVATE_KEY = '6LdulbkpAAAAAHMrfUWycmUUrL9R_qoQDEfdMQ_0'
