@@ -128,9 +128,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-     os.path.join(BASE_DIR, 'static'),
-]
-
 RECAPTCHA_PUBLIC_KEY = '6LdulbkpAAAAAC6bIqHFqcmKCiaHaCbwlinJjRFe'
 RECAPTCHA_PRIVATE_KEY = '6LdulbkpAAAAAHMrfUWycmUUrL9R_qoQDEfdMQ_0'
