@@ -1,3 +1,5 @@
+django-simple-captcha
+googletrans
 aioredis
 anyio
 argon2-cffi
