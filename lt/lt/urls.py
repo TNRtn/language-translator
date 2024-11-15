@@ -18,7 +18,9 @@ from django.urls import path,include
 from language import views
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import RedirectView
 urlpatterns = [
+    path('', RedirectView.as_view(url='/signup/')), 
     path('admin/', admin.site.urls),
     path('tnr/',views.sample),
     path('signup/',views.signupc,name='signup'),
