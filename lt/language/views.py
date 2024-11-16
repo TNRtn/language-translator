@@ -69,94 +69,75 @@ def translationa(request,p):
 	return render(request,"translator.html",{'a':p})
 
 def translated(request):
-    # Extract parameters from the request
-    text = request.GET.get('text', '').strip()
-    lang = request.GET.get('lang', '').strip()
-    
-    # Check if text or lang is missing
-    if not text:
-        return JsonResponse({"error": "Text parameter is required."}, status=400)
-    if not lang:
-        return JsonResponse({"error": "Language parameter is required."}, status=400)
+    # Get text and language parameters from the request
+    text = request.GET.get('text', '')
+    lang = request.GET.get('lang', '')
 
-    # Define the language mapping
+    # Define language mappings
     lang_mapping = {
-        'af': 'Afrikaans', 'sq': 'Albanian', 'am': 'Amharic', 'ar': 'Arabic',
-        'hy': 'Armenian', 'as': 'Assamese', 'ay': 'Aymara', 'az': 'Azerbaijani',
-        'bm': 'Bambara', 'eu': 'Basque', 'be': 'Belarusian', 'bn': 'Bengali',
-        'bho': 'Bhojpuri', 'bs': 'Bosnian', 'bg': 'Bulgarian', 'ca': 'Catalan',
-        'ceb': 'Cebuano', 'zh-CN': 'Chinese', 'co': 'Corsican', 'hr': 'Croatian',
-        'cs': 'Czech', 'da': 'Danish', 'dv': 'Dhivehi', 'doi': 'Dogri',
-        'nl': 'Dutch', 'en': 'English', 'eo': 'Esperanto', 'et': 'Estonian',
-        'ee': 'Ewe', 'fil': 'Filipino', 'fi': 'Finnish', 'fr': 'French',
-        'fv': 'Frisian', 'gl': 'Galician', 'ka': 'Georgian', 'de': 'German',
-        'el': 'Greek', 'gn': 'Guarani', 'gu': 'Gujarati', 'ht': 'Haitian Creole',
-        'ha': 'Hausa', 'haw': 'Hawaiian', 'he': 'Hebrew', 'hi': 'Hindi',
-        'hmn': 'Hmong', 'hu': 'Hungarian', 'is': 'Icelandic', 'ig': 'Igbo',
-        'ilo': 'Ilocano', 'id': 'Indonesian', 'ga': 'Irish', 'it': 'Italian',
-        'ja': 'Japanese', 'kn': 'Kannada', 'kk': 'Kazakh', 'km': 'Khmer',
-        'rw': 'Kinyarwanda', 'gom': 'Konkani', 'ko': 'Korean', 'kri': 'Krio',
-        'ku': 'Kurdish', 'ky': 'Kyrgyz', 'lo': 'Lao', 'la': 'Latin',
-        'lv': 'Latvian', 'ln': 'Lingala', 'lt': 'Lithuanian', 'lg': 'Luganda',
-        'lb': 'Luxembourgish', 'mk': 'Macedonian', 'mai': 'Maithili', 'mg': 'Malagasy',
-        'ms': 'Malay', 'ml': 'Malayalam', 'mt': 'Maltese', 'mi': 'Maori',
-        'mr': 'Marathi', 'mni-Mtei': 'Meiteilon', 'lus': 'Mizo', 'mn': 'Mongolian',
-        'my': 'Myanmar', 'ne': 'Nepali', 'no': 'Norwegian', 'ny': 'Nyanja',
-        'or': 'Odia', 'om': 'Oromo', 'ps': 'Pashto', 'fa': 'Persian',
-        'pl': 'Polish', 'pt': 'Portuguese', 'pa': 'Punjabi', 'qu': 'Quechua',
-        'ro': 'Romanian', 'ru': 'Russian', 'sm': 'Samoan', 'sa': 'Sanskrit',
-        'gd': 'Scots Gaelic', 'nso': 'Sepedi', 'sr': 'Serbian', 'st': 'Sesotho',
-        'sn': 'Shona', 'sd': 'Sindhi', 'si': 'Sinhala', 'sk': 'Slovak',
-        'sl': 'Slovenian', 'so': 'Somali', 'es': 'Spanish', 'su': 'Sundanese',
-        'sw': 'Swahili', 'sv': 'Swedish', 'tl': 'Tagalog', 'tg': 'Tajik',
-        'ta': 'Tamil', 'tt': 'Tatar', 'te': 'Telugu', 'th': 'Thai',
-        'ti': 'Tigrinya', 'ts': 'Tsonga', 'tr': 'Turkish', 'tk': 'Turkmen',
-        'ak': 'Twi', 'uk': 'Ukrainian', 'ur': 'Urdu', 'ug': 'Uyghur',
-        'uz': 'Uzbek', 'vi': 'Vietnamese', 'cy': 'Welsh', 'xh': 'Xhosa',
+        'af': 'Afrikaans', 'sq': 'Albanian', 'am': 'Amharic', 'ar': 'Arabic', 'hy': 'Armenian',
+        'as': 'Assamese', 'ay': 'Aymara', 'az': 'Azerbaijani', 'bm': 'Bambara', 'eu': 'Basque',
+        'be': 'Belarusian', 'bn': 'Bengali', 'bho': 'Bhojpuri', 'bs': 'Bosnian', 'bg': 'Bulgarian',
+        'ca': 'Catalan', 'ceb': 'Cebuano', 'zh-CN': 'Chinese (Simplified)', 'zh-TW': 'Chinese (Traditional)',
+        'co': 'Corsican', 'hr': 'Croatian', 'cs': 'Czech', 'da': 'Danish', 'dv': 'Dhivehi',
+        'doi': 'Dogri', 'nl': 'Dutch', 'en': 'English', 'eo': 'Esperanto', 'et': 'Estonian',
+        'ee': 'Ewe', 'fil': 'Filipino', 'fi': 'Finnish', 'fr': 'French', 'fy': 'Frisian',
+        'gl': 'Galician', 'ka': 'Georgian', 'de': 'German', 'el': 'Greek', 'gn': 'Guarani',
+        'gu': 'Gujarati', 'ht': 'Haitian Creole', 'ha': 'Hausa', 'haw': 'Hawaiian', 'he': 'Hebrew',
+        'hi': 'Hindi', 'hmn': 'Hmong', 'hu': 'Hungarian', 'is': 'Icelandic', 'ig': 'Igbo',
+        'ilo': 'Ilocano', 'id': 'Indonesian', 'ga': 'Irish', 'it': 'Italian', 'ja': 'Japanese',
+        'kn': 'Kannada', 'kk': 'Kazakh', 'km': 'Khmer', 'rw': 'Kinyarwanda', 'gom': 'Konkani',
+        'ko': 'Korean', 'kri': 'Krio', 'ku': 'Kurdish', 'ky': 'Kyrgyz', 'lo': 'Lao',
+        'la': 'Latin', 'lv': 'Latvian', 'ln': 'Lingala', 'lt': 'Lithuanian', 'lg': 'Luganda',
+        'lb': 'Luxembourgish', 'mk': 'Macedonian', 'mai': 'Maithili', 'mg': 'Malagasy', 'ms': 'Malay',
+        'ml': 'Malayalam', 'mt': 'Maltese', 'mi': 'Maori', 'mr': 'Marathi', 'mni-Mtei': 'Meiteilon',
+        'lus': 'Mizo', 'mn': 'Mongolian', 'my': 'Myanmar', 'ne': 'Nepali', 'no': 'Norwegian',
+        'ny': 'Nyanja', 'or': 'Odia', 'om': 'Oromo', 'ps': 'Pashto', 'fa': 'Persian',
+        'pl': 'Polish', 'pt': 'Portuguese', 'pa': 'Punjabi', 'qu': 'Quechua', 'ro': 'Romanian',
+        'ru': 'Russian', 'sm': 'Samoan', 'sa': 'Sanskrit', 'gd': 'Scots Gaelic', 'nso': 'Sepedi',
+        'sr': 'Serbian', 'st': 'Sesotho', 'sn': 'Shona', 'sd': 'Sindhi', 'si': 'Sinhala',
+        'sk': 'Slovak', 'sl': 'Slovenian', 'so': 'Somali', 'es': 'Spanish', 'su': 'Sundanese',
+        'sw': 'Swahili', 'sv': 'Swedish', 'tl': 'Tagalog', 'tg': 'Tajik', 'ta': 'Tamil',
+        'tt': 'Tatar', 'te': 'Telugu', 'th': 'Thai', 'ti': 'Tigrinya', 'ts': 'Tsonga',
+        'tr': 'Turkish', 'tk': 'Turkmen', 'ak': 'Twi', 'uk': 'Ukrainian', 'ur': 'Urdu',
+        'ug': 'Uyghur', 'uz': 'Uzbek', 'vi': 'Vietnamese', 'cy': 'Welsh', 'xh': 'Xhosa',
         'yi': 'Yiddish', 'yo': 'Yoruba', 'zu': 'Zulu'
     }
 
-    # Translator initialization
+    # Initialize translator
     translator = Translator()
 
     try:
-        # Detect the source language of the text
-        detected_lang = translator.detect(text).lang
-        from_lang = lang_mapping.get(detected_lang, 'Unknown Language')
+        # Detect the language of the input text
+        detected = translator.detect(text)
+        detected_lang = detected.lang
 
-        # Get the target language full name
-        to_lang = lang_mapping.get(lang, 'Unknown Language')
-
-        # Handle unsupported target languages
-        if to_lang == 'Unknown Language':
-            return JsonResponse({"error": f"Unsupported target language code: {lang}"}, status=400)
+        # Get readable names for the languages
+        from_lang = lang_mapping.get(detected_lang, 'Unknown')
+        to_lang = lang_mapping.get(lang, 'Unknown')
 
         # Translate the text
-        translated_text = translator.translate(text, dest=lang).text
+        translation = translator.translate(text, dest=lang)
+        translated_text = translation.text
 
-        # Save translation (assuming a model called 'translation' exists)
-        # Comment this out if the model doesn't exist
-        """
-        new_translation = translation(
-            fromlang=from_lang,
-            tolang=to_lang,
-            fromtext=text,
-            totext=translated_text
-        )
-        new_translation.save()
-        """
-
-        # Render the translated page
+        # Render the response
         return render(request, "translated.html", {
+            'text': text,
             'translated': translated_text,
             'flang': from_lang,
-            'tlang': to_lang,
-            'text': text
+            'tlang': to_lang
         })
 
     except Exception as e:
-        # Handle unexpected errors
-        return JsonResponse({"error": str(e)}, status=500)
+        # Handle errors gracefully
+        error_message = f"An error occurred: {str(e)}"
+        return render(request, "translated.html", {
+            'text': text,
+            'translated': '',
+            'flang': 'Unknown',
+            'tlang': 'Unknown',
+            'error': error_message
+        })
 
 def history(request):
 	k=translation.objects.all()
