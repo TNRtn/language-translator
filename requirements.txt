@@ -1,5 +1,5 @@
 django-simple-captcha
-googletrans
+googletrans==4.0.0-rc1
 aioredis
 anyio
 argon2-cffi
